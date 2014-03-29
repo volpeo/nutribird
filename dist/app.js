@@ -27,9 +27,7 @@
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("bird", "assets/bird.png");
       this.game.load.image("item", "assets/pipe.png");
-      Phaser.ScaleManager.EXACT_FIT = 0;
-      Phaser.ScaleManager.NO_SCALE = 1;
-      Phaser.ScaleManager.SHOW_ALL = 2;
+      this.game.load.image("background", "assets/bg.png");
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
       scaleManager.forcePortrait = true;
       scaleManager.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -38,6 +36,7 @@
     },
     create: function() {
       var space_key;
+      this.background = game.add.tileSprite(0, 0, 2000, win_height, "background");
       this.bird = this.game.add.sprite(100, 245, "bird");
       this.game.physics.enable(this.bird);
       this.bird.body.gravity.y = 1000;
@@ -57,6 +56,7 @@
       if (this.bird.angle < 20) {
         this.bird.angle += 1;
       }
+      this.background.tilePosition.x -= 1;
       return this.game.physics.arcade.overlap(this.bird, this.items, this.eat_item, null, this);
     },
     eat_item: function(bird, item) {
