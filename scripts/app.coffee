@@ -19,6 +19,7 @@ main_state = {
     this.game.stage.backgroundColor = "#71c5cf"
     this.game.load.image "bird", "assets/bird.png"
     this.game.load.image "item", "assets/pipe.png"
+    this.game.load.image "baditem", "assets/item-red.png"
     this.game.load.image "background", "assets/bg.png"
 
     scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
@@ -28,7 +29,7 @@ main_state = {
 
     scaleManager.setShowAll()
     scaleManager.refresh()
-    return    
+    return
     
   create: () ->
 
@@ -49,14 +50,17 @@ main_state = {
     
     # Create a group of 20 items
     this.items = game.add.group()
-    this.items.createMultiple 20, "item"
     
+    this.items.createMultiple 30, "item"
+    this.items.createMultiple 10, "baditem"
+
     this.timer = this.game.time.events.loop(1500, this.add_one_item, this)
 
     this.score = 0
 
     this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
     return
+
 
   update: () ->
     if (this.bird.inWorld == false)
@@ -75,9 +79,9 @@ main_state = {
     this.score++
     this.label_score.text = this.score
 
-  add_one_item : () -> 
+  add_one_item : () ->
     position = Math.floor(Math.random()*5)+1
-    item = this.items.getFirstDead()
+    item = this.items.getRandom(0, this.items.length)
     this.game.physics.enable(item)
     item.reset(win_width, position*60+10)
     item.body.velocity.x = -200

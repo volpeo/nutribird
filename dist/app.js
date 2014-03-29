@@ -27,6 +27,7 @@
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("bird", "assets/bird.png");
       this.game.load.image("item", "assets/pipe.png");
+      this.game.load.image("baditem", "assets/item-red.png");
       this.game.load.image("background", "assets/bg.png");
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
       scaleManager.forcePortrait = true;
@@ -47,7 +48,8 @@
         return this.jump();
       }, this);
       this.items = game.add.group();
-      this.items.createMultiple(20, "item");
+      this.items.createMultiple(30, "item");
+      this.items.createMultiple(10, "baditem");
       this.timer = this.game.time.events.loop(1500, this.add_one_item, this);
       this.score = 0;
       this.label_score = this.game.add.text(20, 20, "0", {
@@ -73,7 +75,7 @@
     add_one_item: function() {
       var item, position;
       position = Math.floor(Math.random() * 5) + 1;
-      item = this.items.getFirstDead();
+      item = this.items.getRandom(0, this.items.length);
       this.game.physics.enable(item);
       item.reset(win_width, position * 60 + 10);
       item.body.velocity.x = -200;
