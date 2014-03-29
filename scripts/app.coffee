@@ -1,4 +1,17 @@
-game = new Phaser.Game(400, 490, Phaser.AUTO, 'game_div');
+(->
+  s = ->
+    scroll 0, 0  unless scrollY
+    return
+  return  if typeof scrollY is "undefined"
+  addEventListener "load", s
+  addEventListener "orientationchange", s
+  return
+)()
+
+winW = document.body.offsetWidth;
+winH = document.body.offsetHeight;
+
+game = new Phaser.Game(winW, winH, Phaser.AUTO, 'game_div');
 
 main_state = {
 
