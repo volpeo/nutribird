@@ -24,6 +24,8 @@ main_state = {
   create: () ->
     
     this.bird = this.game.add.sprite(100, 245, "bird")
+    this.bird.scale.x = this.bird.scale.y = 0.8
+
     this.game.physics.enable(this.bird)
     this.bird.body.gravity.y = 1000
     
@@ -39,14 +41,10 @@ main_state = {
     this.items.createMultiple 20, "item"
     
     this.timer = this.game.time.events.loop(1500, this.add_one_item, this)
-    
-    # Add a score label on the top left of the screen
-  	# this.score = 0
-   #    style =
-  	# 	font: "30px Arial"
-  	# 	fill: "#ffffff"
-    
-    # this.label_score = this.game.add.text(20, 20, "0", style)
+
+    this.score = 0
+
+    this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
     return
 
   update: () ->
@@ -61,6 +59,8 @@ main_state = {
 
   eat_item: (bird, item) ->
     item.kill()
+    this.score++
+    this.label_score.text = this.score
 
   add_one_item : () -> 
     position = Math.floor(Math.random()*5)+1

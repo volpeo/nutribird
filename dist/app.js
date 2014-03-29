@@ -30,6 +30,7 @@
     create: function() {
       var space_key;
       this.bird = this.game.add.sprite(100, 245, "bird");
+      this.bird.scale.x = this.bird.scale.y = 0.8;
       this.game.physics.enable(this.bird);
       this.bird.body.gravity.y = 1000;
       space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -40,6 +41,11 @@
       this.items = game.add.group();
       this.items.createMultiple(20, "item");
       this.timer = this.game.time.events.loop(1500, this.add_one_item, this);
+      this.score = 0;
+      this.label_score = this.game.add.text(20, 20, "0", {
+        font: "30px Arial",
+        fill: "#ffffff"
+      });
     },
     update: function() {
       if (this.bird.inWorld === false) {
@@ -51,7 +57,9 @@
       return this.game.physics.arcade.overlap(this.bird, this.items, this.eat_item, null, this);
     },
     eat_item: function(bird, item) {
-      return item.kill();
+      item.kill();
+      this.score++;
+      return this.label_score.text = this.score;
     },
     add_one_item: function() {
       var item, position;
