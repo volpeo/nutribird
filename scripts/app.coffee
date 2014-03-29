@@ -19,9 +19,10 @@ map={
   banane : {points: 5},
   orange: {points: 5},
   tomate: {points: 5},
-  marche: {points: 5},
+  carotte: {points: 5},
+  marche: {points: 15},
   tennis: {points: 30},
-  velo: {points: 30},
+  basket: {points: 30},
   b_soda: {points: -10},
   b_hamburger: {points: -25},
   b_frite: {points: -20},
@@ -44,7 +45,8 @@ main_state = {
     this.game.load.image "tomate", "assets/items/tomate.png"
     this.game.load.image "marche", "assets/items/marche.png"
     this.game.load.image "tennis", "assets/items/tennis.png"
-    this.game.load.image "velo", "assets/items/velo.png"
+    this.game.load.image "basket", "assets/items/basket.png"
+    this.game.load.image "carotte", "assets/items/carotte.png"
     
     this.game.load.image "b_soda", "assets/items/soda.png"
     this.game.load.image "b_hamburger", "assets/items/hamburger.png"
@@ -86,7 +88,8 @@ main_state = {
     this.items.createMultiple 5, "tomate"
     this.items.createMultiple 5, "marche"
     this.items.createMultiple 5, "tennis"
-    this.items.createMultiple 5, "velo"
+    this.items.createMultiple 5, "basket"
+    this.items.createMultiple 5, "carotte"
     this.items.createMultiple 15, "b_soda"
     this.items.createMultiple 15, "b_hamburger"
     this.items.createMultiple 15, "b_frite"

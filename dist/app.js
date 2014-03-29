@@ -37,13 +37,16 @@
     tomate: {
       points: 5
     },
-    marche: {
+    carotte: {
       points: 5
+    },
+    marche: {
+      points: 15
     },
     tennis: {
       points: 30
     },
-    velo: {
+    basket: {
       points: 30
     },
     b_soda: {
@@ -73,7 +76,8 @@
       this.game.load.image("tomate", "assets/items/tomate.png");
       this.game.load.image("marche", "assets/items/marche.png");
       this.game.load.image("tennis", "assets/items/tennis.png");
-      this.game.load.image("velo", "assets/items/velo.png");
+      this.game.load.image("basket", "assets/items/basket.png");
+      this.game.load.image("carotte", "assets/items/carotte.png");
       this.game.load.image("b_soda", "assets/items/soda.png");
       this.game.load.image("b_hamburger", "assets/items/hamburger.png");
       this.game.load.image("b_frite", "assets/items/frite.png");
@@ -104,7 +108,8 @@
       this.items.createMultiple(5, "tomate");
       this.items.createMultiple(5, "marche");
       this.items.createMultiple(5, "tennis");
-      this.items.createMultiple(5, "velo");
+      this.items.createMultiple(5, "basket");
+      this.items.createMultiple(5, "carotte");
       this.items.createMultiple(15, "b_soda");
       this.items.createMultiple(15, "b_hamburger");
       this.items.createMultiple(15, "b_frite");
