@@ -13,7 +13,8 @@ win_width = 450
 
 game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div')
 
-map={}
+map = {}
+
 map["pomme"] = {points: 5}
 map["aubergine"] = {points: 5}
 map["banane"] = {points: 5}
@@ -31,7 +32,12 @@ main_state = {
 
   preload: () ->
     this.game.stage.backgroundColor = "#71c5cf"
-    this.game.load.image "bird", "assets/bird.png"
+    this.game.load.image "bird1_idle", "assets/sprites/bird1_idle.png"
+    this.game.load.image "bird1_fly", "assets/sprites/bird1_fly.png"
+    this.game.load.image "bird2_idle", "assets/sprites/bird2_idle.png"
+    this.game.load.image "bird2_fly", "assets/sprites/bird2_fly.png"
+    this.game.load.image "bird3_idle", "assets/sprites/bird3_idle.png"
+    this.game.load.image "bird3_fly", "assets/sprites/bird3_fly.png"
     
     this.game.load.image "item", "assets/pipe.png"
     this.game.load.image "baditem", "assets/item-red.png"
@@ -63,13 +69,13 @@ main_state = {
     
   create: () ->
     this.background = game.add.tileSprite(0, 0, 2000, win_height, "background")
-    
-    this.bird = this.game.add.sprite(100, 245, "bird")
-    this.bird.scale.x = this.bird.scale.y = 0.6
+    this.current_bird = "bird3"
+    this.bird = this.game.add.sprite(100, 245, this.current_bird + "_idle")
+    this.bird.scale.x = this.bird.scale.y = 0.5
 
     this.game.physics.enable(this.bird)
     this.bird.body.gravity.y = 1000
-    
+
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
 
@@ -127,12 +133,16 @@ main_state = {
     item.outOfBoundsKill = true
 
   jump: () ->
+    this.bird.loadTexture(this.current_bird + "_fly")
     this.bird.body.velocity.y = -350
     this.game.add.tween(this.bird).to({angle: -20}, 100).start()
+    window.setTimeout( (bird, current) ->
+      bird.loadTexture(current + "_idle")
+    , 100, this.bird, this.current_bird)
 
   restart_game: () ->
     this.game.state.start('main')
-};
+}
 
 game.state.add('main', main_state)
 game.state.start('main')
