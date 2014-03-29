@@ -69,7 +69,8 @@ main_state = {
     
   create: () ->
     this.background = game.add.tileSprite(0, 0, 2000, win_height, "background")
-    this.current_bird = "bird3"
+    
+    this.current_bird = "bird1"
     this.bird = this.game.add.sprite(100, 245, this.current_bird + "_idle")
     this.bird.scale.x = this.bird.scale.y = 0.5
 
@@ -135,11 +136,13 @@ main_state = {
       this.bird_weight += 1
 
     if (this.bird_weight == 0)
-	    this.bird_weight = 1
+      this.bird_weight = 1
     if (this.bird_weight == 4)
         this.restart_game()
     
-    #update bird
+    clearTimeout(this.fly)
+    this.current_bird = "bird" + this.bird_weight
+    this.bird.loadTexture(this.current_bird + "_idle")
 
   add_one_item : () ->
     position = Math.floor(Math.random()*5)+1
@@ -153,7 +156,7 @@ main_state = {
     this.bird.loadTexture(this.current_bird + "_fly")
     this.bird.body.velocity.y = -350
     this.game.add.tween(this.bird).to({angle: -20}, 100).start()
-    window.setTimeout( (bird, current) ->
+    this.fly = window.setTimeout( (bird, current) ->
       bird.loadTexture(current + "_idle")
     , 100, this.bird, this.current_bird)
 

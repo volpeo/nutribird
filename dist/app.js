@@ -94,7 +94,7 @@
     create: function() {
       var space_key;
       this.background = game.add.tileSprite(0, 0, 2000, win_height, "background");
-      this.current_bird = "bird3";
+      this.current_bird = "bird1";
       this.bird = this.game.add.sprite(100, 245, this.current_bird + "_idle");
       this.bird.scale.x = this.bird.scale.y = 0.5;
       this.game.physics.enable(this.bird);
@@ -153,8 +153,11 @@
         this.bird_weight = 1;
       }
       if (this.bird_weight === 4) {
-        return this.restart_game();
+        this.restart_game();
       }
+      clearTimeout(this.fly);
+      this.current_bird = "bird" + this.bird_weight;
+      return this.bird.loadTexture(this.current_bird + "_idle");
     },
     add_one_item: function() {
       var item, position;
@@ -171,7 +174,7 @@
       this.game.add.tween(this.bird).to({
         angle: -20
       }, 100).start();
-      return window.setTimeout(function(bird, current) {
+      return this.fly = window.setTimeout(function(bird, current) {
         return bird.loadTexture(current + "_idle");
       }, 100, this.bird, this.current_bird);
     },
