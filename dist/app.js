@@ -21,54 +21,43 @@
 
   game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div');
 
-  map = {};
-
-  map["pomme"] = {
-    points: 5
-  };
-
-  map["aubergine"] = {
-    points: 5
-  };
-
-  map["banane"] = {
-    points: 5
-  };
-
-  map["orange"] = {
-    points: 5
-  };
-
-  map["tomate"] = {
-    points: 5
-  };
-
-  map["marche"] = {
-    points: 5
-  };
-
-  map["tennis"] = {
-    points: 30
-  };
-
-  map["velo"] = {
-    points: 30
-  };
-
-  map["b-soda"] = {
-    points: -10
-  };
-
-  map["b-hamburger"] = {
-    points: -25
-  };
-
-  map["b-frite"] = {
-    points: -20
-  };
-
-  map["b-canape"] = {
-    points: -10
+  map = {
+    pomme: {
+      points: 5
+    },
+    aubergine: {
+      points: 5
+    },
+    banane: {
+      points: 5
+    },
+    orange: {
+      points: 5
+    },
+    tomate: {
+      points: 5
+    },
+    marche: {
+      points: 5
+    },
+    tennis: {
+      points: 30
+    },
+    velo: {
+      points: 30
+    },
+    b_soda: {
+      points: -10
+    },
+    b_hamburger: {
+      points: -25
+    },
+    b_frite: {
+      points: -20
+    },
+    b_canape: {
+      points: -10
+    }
   };
 
   main_state = {
@@ -91,10 +80,10 @@
       this.game.load.image("marche", "assets/marche.png");
       this.game.load.image("tennis", "assets/tennis.png");
       this.game.load.image("velo", "assets/velo.png");
-      this.game.load.image("b-soda", "assets/soda.png");
-      this.game.load.image("b-hamburger", "assets/hamburger.png");
-      this.game.load.image("b-frite", "assets/frite.png");
-      this.game.load.image("b-canape", "assets/canape.png");
+      this.game.load.image("b_soda", "assets/soda.png");
+      this.game.load.image("b_hamburger", "assets/hamburger.png");
+      this.game.load.image("b_frite", "assets/frite.png");
+      this.game.load.image("b_canape", "assets/canape.png");
       this.game.load.image("background", "assets/bg.png");
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
       scaleManager.forcePortrait = true;
@@ -124,12 +113,15 @@
       this.items.createMultiple(5, "marche");
       this.items.createMultiple(5, "tennis");
       this.items.createMultiple(5, "velo");
-      this.items.createMultiple(15, "b-soda");
-      this.items.createMultiple(15, "b-hamburger");
-      this.items.createMultiple(15, "b-frite");
-      this.items.createMultiple(15, "b-canape");
+      this.items.createMultiple(15, "b_soda");
+      this.items.createMultiple(15, "b_hamburger");
+      this.items.createMultiple(15, "b_frite");
+      this.items.createMultiple(15, "b_canape");
       this.timer = this.game.time.events.loop(1500, this.add_one_item, this);
       this.score = 0;
+      this.badItemsCount = 0;
+      this.goodItemsCount = 0;
+      this.bird_weight = 1;
       this.label_score = this.game.add.text(20, 20, "0", {
         font: "30px Arial",
         fill: "#ffffff"
@@ -148,7 +140,21 @@
     eat_item: function(bird, item) {
       item.kill();
       this.score = this.score + map[item.key].points;
-      return this.label_score.text = this.score;
+      this.label_score.text = this.score;
+      console.log('b:' + item.key);
+      if (item.key.search(/b_/)) {
+        this.goodItemsCount += 1;
+        this.bird_weight -= 1;
+      } else {
+        this.badItemsCount += 1;
+        this.bird_weight += 1;
+      }
+      if (this.bird_weight === 0) {
+        this.bird_weight = 1;
+      }
+      if (this.bird_weight === 4) {
+        return this.restart_game();
+      }
     },
     add_one_item: function() {
       var item, position;
