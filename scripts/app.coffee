@@ -13,7 +13,7 @@ win_width = 368
 
 game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div')
 
-map={
+map = {
   pomme :{points: 5},
   aubergine: {points: 5},
   banane : {points: 5},
@@ -27,7 +27,6 @@ map={
   b_frite: {points: -20},
   b_canape:{points: -10}
 }
-
 
 main_state = {
 
@@ -98,6 +97,8 @@ main_state = {
     this.timer = this.game.time.events.loop(1500, this.add_one_item, this)
 
     this.score = 0
+    this.badItemsCount = 0
+    this.goodItemsCount = 0
 
     this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
     return
@@ -119,6 +120,18 @@ main_state = {
     item.kill()
     this.score = this.score + map[item.key].points
     this.label_score.text = this.score
+    console.log 'b:'+item.key
+    if (!item.key.search /b_/)
+	    this.badItemsCount += 1
+    else
+        this.goodItemsCount += 1
+    if(this.badItemsCount == 1)
+	    console.log 'big +1'
+    if(this.badItemsCount == 2 )
+        console.log 'big +2'
+    if(this.badItemsCount == 3)
+        console.log 'tooo big: game over'
+        this.restart_game()
 
   add_one_item : () ->
     position = Math.floor(Math.random()*5)+1

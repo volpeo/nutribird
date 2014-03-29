@@ -113,6 +113,8 @@
       this.items.createMultiple(15, "b_canape");
       this.timer = this.game.time.events.loop(1500, this.add_one_item, this);
       this.score = 0;
+      this.badItemsCount = 0;
+      this.goodItemsCount = 0;
       this.label_score = this.game.add.text(20, 20, "0", {
         font: "30px Arial",
         fill: "#ffffff"
@@ -131,7 +133,23 @@
     eat_item: function(bird, item) {
       item.kill();
       this.score = this.score + map[item.key].points;
-      return this.label_score.text = this.score;
+      this.label_score.text = this.score;
+      console.log('b:' + item.key);
+      if (!item.key.search(/b_/)) {
+        this.badItemsCount += 1;
+      } else {
+        this.goodItemsCount += 1;
+      }
+      if (this.badItemsCount === 1) {
+        console.log('big +1');
+      }
+      if (this.badItemsCount === 2) {
+        console.log('big +2');
+      }
+      if (this.badItemsCount === 3) {
+        console.log('tooo big: game over');
+        return this.restart_game();
+      }
     },
     add_one_item: function() {
       var item, position;
