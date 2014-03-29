@@ -1,53 +1,49 @@
-console.log "coucou :)"
-
-console.log "gniii"
-
-
 game = new Phaser.Game(400, 490, Phaser.AUTO, 'game_div');
 
 main_state = {
-	# Function called first to load all the assets
-	preload: ->
-	  
-	  # Change the background color of the game
-	  @game.stage.backgroundColor = "#71c5cf"
-	  
-	  # Load the bird sprite
-	  @game.load.image "bird", "assets/bird.png"
-	  
-	  # Load the pipe sprite
-	  @game.load.image "pipe", "assets/pipe.png"
-	  return
-	
-	
-  # Fuction called after 'preload' to setup the game
-  create: ->
+
+  preload: () ->
+    this.game.stage.backgroundColor = "#71c5cf"
+    this.game.load.image "bird", "assets/bird.png"
+    this.game.load.image "pipe", "assets/pipe.png"
+    return    
     
-    # Display the bird on the screen
-    @bird = @game.add.sprite(100, 245, "bird")
+  create: () ->
     
-    # Add gravity to the bird to make it fall
-    @bird.body.gravity.y = 1000
+    this.bird = this.game.add.sprite(100, 245, "bird")
+    this.game.physics.enable(this.bird)
+    this.bird.body.gravity.y = 1000
     
-    # Call the 'jump' function when the spacekey is hit
-    space_key = @game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
-    space_key.onDown.add @jump, this
+    space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    space_key.onDown.add this.jump, this
+
+    this.game.input.onTap.add( this.jump(), this)
     
     # Create a group of 20 pipes
-    @pipes = game.add.group()
-    @pipes.createMultiple 20, "pipe"
+    # this.pipes = game.add.group()
+    # this.pipes.createMultiple 20, "pipe"
     
     # Timer that calls 'add_row_of_pipes' ever 1.5 seconds
-    @timer = @game.time.events.loop(1500, @add_row_of_pipes, this)
+    # this.timer = this.game.time.events.loop(1500, this.add_row_of_pipes, this)
     
     # Add a score label on the top left of the screen
-	@score = 0
-    style =
-		font: "30px Arial"
-		fill: "#ffffff"
-  
-    @label_score = @game.add.text(20, 20, "0", style)
+  	# this.score = 0
+   #    style =
+  	# 	font: "30px Arial"
+  	# 	fill: "#ffffff"
+    
+    # this.label_score = this.game.add.text(20, 20, "0", style)
     return
+
+  update: () ->
+    if (this.bird.inWorld == false)
+      this.restart_game();
+
+  jump: () ->
+    this.bird.body.velocity.y = -350
+
+  restart_game: () ->
+    this.game.state.start('main')
 
 };
 
