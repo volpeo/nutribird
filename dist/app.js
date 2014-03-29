@@ -115,6 +115,7 @@
       this.score = 0;
       this.badItemsCount = 0;
       this.goodItemsCount = 0;
+      this.bird_weight = 1;
       this.label_score = this.game.add.text(20, 20, "0", {
         font: "30px Arial",
         fill: "#ffffff"
@@ -135,19 +136,17 @@
       this.score = this.score + map[item.key].points;
       this.label_score.text = this.score;
       console.log('b:' + item.key);
-      if (!item.key.search(/b_/)) {
-        this.badItemsCount += 1;
-      } else {
+      if (item.key.search(/b_/)) {
         this.goodItemsCount += 1;
+        this.bird_weight -= 1;
+      } else {
+        this.badItemsCount += 1;
+        this.bird_weight += 1;
       }
-      if (this.badItemsCount === 1) {
-        console.log('big +1');
+      if (this.bird_weight === 0) {
+        this.bird_weight = 1;
       }
-      if (this.badItemsCount === 2) {
-        console.log('big +2');
-      }
-      if (this.badItemsCount === 3) {
-        console.log('tooo big: game over');
+      if (this.bird_weight === 4) {
         return this.restart_game();
       }
     },

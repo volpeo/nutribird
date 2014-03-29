@@ -99,6 +99,7 @@ main_state = {
     this.score = 0
     this.badItemsCount = 0
     this.goodItemsCount = 0
+    this.bird_weight = 1
 
     this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
     return
@@ -121,17 +122,19 @@ main_state = {
     this.score = this.score + map[item.key].points
     this.label_score.text = this.score
     console.log 'b:'+item.key
-    if (!item.key.search /b_/)
-	    this.badItemsCount += 1
+    if (item.key.search /b_/)
+      this.goodItemsCount += 1
+      this.bird_weight -= 1
     else
-        this.goodItemsCount += 1
-    if(this.badItemsCount == 1)
-	    console.log 'big +1'
-    if(this.badItemsCount == 2 )
-        console.log 'big +2'
-    if(this.badItemsCount == 3)
-        console.log 'tooo big: game over'
+      this.badItemsCount += 1
+      this.bird_weight += 1
+
+    if (this.bird_weight == 0)
+	    this.bird_weight = 1
+    if (this.bird_weight == 4)
         this.restart_game()
+    
+    #update bird
 
   add_one_item : () ->
     position = Math.floor(Math.random()*5)+1
