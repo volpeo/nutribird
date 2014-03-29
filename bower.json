@@ -1,0 +1,12 @@
+{
+  "name": "nutribird",
+  "version": "0.0.0",
+  "homepage": "https://github.com/volpeo/nutribird",
+  "authors": [
+    "Christophe Scholly <christophe.scholly@gmail.com>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "~2.0.0"
+  }
+}
