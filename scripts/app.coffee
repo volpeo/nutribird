@@ -41,8 +41,12 @@ main_state = {
     if (this.bird.inWorld == false)
       this.restart_game();
 
+    if (this.bird.angle < 20)
+      this.bird.angle += 1;
+
   jump: () ->
     this.bird.body.velocity.y = -350
+    this.game.add.tween(this.bird).to({angle: -20}, 100).start()
 
   restart_game: () ->
     this.game.state.start('main')

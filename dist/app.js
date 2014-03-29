@@ -22,11 +22,17 @@
     },
     update: function() {
       if (this.bird.inWorld === false) {
-        return this.restart_game();
+        this.restart_game();
+      }
+      if (this.bird.angle < 20) {
+        return this.bird.angle += 1;
       }
     },
     jump: function() {
-      return this.bird.body.velocity.y = -350;
+      this.bird.body.velocity.y = -350;
+      return this.game.add.tween(this.bird).to({
+        angle: -20
+      }, 100).start();
     },
     restart_game: function() {
       return this.game.state.start('main');
