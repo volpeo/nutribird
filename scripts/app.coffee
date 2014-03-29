@@ -1,3 +1,13 @@
+(->
+  s = ->
+    scroll 0, 0  unless scrollY
+    return
+  return  if typeof scrollY is "undefined"
+  addEventListener "load", s
+  addEventListener "orientationchange", s
+  return
+)()
+
 winW = document.body.offsetWidth;
 winH = document.body.offsetHeight;
 

@@ -1,6 +1,20 @@
 (function() {
   var game, main_state, winH, winW;
 
+  (function() {
+    var s;
+    s = function() {
+      if (!scrollY) {
+        scroll(0, 0);
+      }
+    };
+    if (typeof scrollY === "undefined") {
+      return;
+    }
+    addEventListener("load", s);
+    addEventListener("orientationchange", s);
+  })();
+
   winW = document.body.offsetWidth;
 
   winH = document.body.offsetHeight;
