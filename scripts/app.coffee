@@ -36,7 +36,7 @@ main_state = {
     this.background = game.add.tileSprite(0, 0, 2000, win_height, "background")
     
     this.bird = this.game.add.sprite(100, 245, "bird")
-    this.bird.scale.x = this.bird.scale.y = 0.8
+    this.bird.scale.x = this.bird.scale.y = 0.6
 
     this.game.physics.enable(this.bird)
     this.bird.body.gravity.y = 1000
@@ -44,7 +44,7 @@ main_state = {
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
 
-    this.game.input.onTap.add( () ->
+    this.game.input.onDown.add( () ->
       this.jump()
     , this)
     
@@ -93,7 +93,6 @@ main_state = {
 
   restart_game: () ->
     this.game.state.start('main')
-
 };
 
 game.state.add('main', main_state)
