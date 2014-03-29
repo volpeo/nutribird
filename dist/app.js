@@ -7,7 +7,7 @@
     preload: function() {
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("bird", "assets/bird.png");
-      this.game.load.image("pipe", "assets/pipe.png");
+      this.game.load.image("item", "assets/pipe.png");
     },
     create: function() {
       var space_key;
@@ -19,14 +19,30 @@
       this.game.input.onTap.add(function() {
         return this.jump();
       }, this);
+      this.items = game.add.group();
+      this.items.createMultiple(20, "item");
+      this.timer = this.game.time.events.loop(1500, this.add_one_item, this);
     },
     update: function() {
       if (this.bird.inWorld === false) {
         this.restart_game();
       }
       if (this.bird.angle < 20) {
-        return this.bird.angle += 1;
+        this.bird.angle += 1;
       }
+      return this.game.physics.arcade.overlap(this.bird, this.items, this.eat_item, null, this);
+    },
+    eat_item: function(bird, item) {
+      return item.kill();
+    },
+    add_one_item: function() {
+      var item, position;
+      position = Math.floor(Math.random() * 5) + 1;
+      item = this.items.getFirstDead();
+      this.game.physics.enable(item);
+      item.reset(400, position * 60 + 10);
+      item.body.velocity.x = -200;
+      return item.outOfBoundsKill = true;
     },
     jump: function() {
       this.bird.body.velocity.y = -350;
