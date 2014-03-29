@@ -1,5 +1,5 @@
 (function() {
-  var game, main_state, winH, winW;
+  var game, main_state, win_height, win_width;
 
   (function() {
     var s;
@@ -15,20 +15,28 @@
     addEventListener("orientationchange", s);
   })();
 
-  winW = document.body.offsetWidth;
+  win_height = 654;
 
-  winH = document.body.offsetHeight;
+  win_width = 368;
 
-  game = new Phaser.Game(winW, winH, Phaser.AUTO, 'game_div');
+  game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div');
 
   main_state = {
     preload: function() {
+      var scaleManager;
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("bird", "assets/bird.png");
       this.game.load.image("item", "assets/pipe.png");
+      this.game.load.image("background", "assets/bg.png");
+      scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
+      scaleManager.forcePortrait = true;
+      scaleManager.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      scaleManager.setShowAll();
+      scaleManager.refresh();
     },
     create: function() {
       var space_key;
+      this.background = game.add.tileSprite(0, 0, 2000, win_height, "background");
       this.bird = this.game.add.sprite(100, 245, "bird");
       this.bird.scale.x = this.bird.scale.y = 0.8;
       this.game.physics.enable(this.bird);
@@ -54,6 +62,7 @@
       if (this.bird.angle < 20) {
         this.bird.angle += 1;
       }
+      this.background.tilePosition.x -= 1;
       return this.game.physics.arcade.overlap(this.bird, this.items, this.eat_item, null, this);
     },
     eat_item: function(bird, item) {
@@ -66,7 +75,7 @@
       position = Math.floor(Math.random() * 5) + 1;
       item = this.items.getFirstDead();
       this.game.physics.enable(item);
-      item.reset(400, position * 60 + 10);
+      item.reset(win_width, position * 60 + 10);
       item.body.velocity.x = -200;
       return item.outOfBoundsKill = true;
     },
