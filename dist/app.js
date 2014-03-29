@@ -85,6 +85,8 @@
       this.game.load.image("b_frite", "assets/frite.png");
       this.game.load.image("b_canape", "assets/canape.png");
       this.game.load.image("background", "assets/bg.png");
+      this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
+      this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
       scaleManager.forcePortrait = true;
       scaleManager.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -99,6 +101,8 @@
       this.bird.scale.x = this.bird.scale.y = 0.5;
       this.game.physics.enable(this.bird);
       this.bird.body.gravity.y = 1000;
+      this.jump_sound = this.game.add.audio('jump');
+      this.miam_sound = this.game.add.audio('miam');
       space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       space_key.onDown.add(this.jump, this);
       this.game.input.onDown.add(function() {
@@ -138,6 +142,7 @@
       return this.game.physics.arcade.overlap(this.bird, this.items, this.eat_item, null, this);
     },
     eat_item: function(bird, item) {
+      this.miam_sound.play();
       item.kill();
       this.score = this.score + map[item.key].points;
       this.label_score.text = this.score;
@@ -169,6 +174,7 @@
       return item.outOfBoundsKill = true;
     },
     jump: function() {
+      this.jump_sound.play();
       this.bird.loadTexture(this.current_bird + "_fly");
       this.bird.body.velocity.y = -350;
       this.game.add.tween(this.bird).to({
@@ -176,7 +182,7 @@
       }, 100).start();
       return this.fly = window.setTimeout(function(bird, current) {
         return bird.loadTexture(current + "_idle");
-      }, 100, this.bird, this.current_bird);
+      }, 200, this.bird, this.current_bird);
     },
     restart_game: function() {
       return this.game.state.start('main');

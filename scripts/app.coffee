@@ -58,6 +58,9 @@ main_state = {
     
     this.game.load.image "background", "assets/bg.png"
 
+    this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
+    this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
+
     scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
 
     scaleManager.forcePortrait = true
@@ -76,6 +79,9 @@ main_state = {
 
     this.game.physics.enable(this.bird)
     this.bird.body.gravity.y = 1000
+
+    this.jump_sound = this.game.add.audio('jump')
+    this.miam_sound = this.game.add.audio('miam')
 
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
@@ -124,6 +130,7 @@ main_state = {
 
 
   eat_item: (bird, item) ->
+    this.miam_sound.play()
     item.kill()
     this.score = this.score + map[item.key].points
     this.label_score.text = this.score
@@ -153,12 +160,13 @@ main_state = {
     item.outOfBoundsKill = true
 
   jump: () ->
+    this.jump_sound.play()
     this.bird.loadTexture(this.current_bird + "_fly")
     this.bird.body.velocity.y = -350
     this.game.add.tween(this.bird).to({angle: -20}, 100).start()
     this.fly = window.setTimeout( (bird, current) ->
       bird.loadTexture(current + "_idle")
-    , 100, this.bird, this.current_bird)
+    , 200, this.bird, this.current_bird)
 
   restart_game: () ->
     this.game.state.start('main')
