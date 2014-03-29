@@ -1,4 +1,7 @@
-game = new Phaser.Game(400, 490, Phaser.AUTO, 'game_div');
+winW = document.body.offsetWidth;
+winH = document.body.offsetHeight;
+
+game = new Phaser.Game(winW, winH, Phaser.AUTO, 'game_div');
 
 main_state = {
 
