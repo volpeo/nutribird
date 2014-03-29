@@ -33,26 +33,23 @@ main_state = {
 
   preload: () ->
     this.game.stage.backgroundColor = "#71c5cf"
+
     this.game.load.image "bird", "assets/bird.png"
-    
-    this.game.load.image "item", "assets/pipe.png"
-    this.game.load.image "baditem", "assets/item-red.png"
-    
-    this.game.load.image "pomme", "assets/pomme.png"
-    this.game.load.image "aubergine", "assets/aubergine.png"
-    this.game.load.image "banane", "assets/banane.png"
-    this.game.load.image "orange", "assets/orange.png"
-    this.game.load.image "tomate", "assets/tomate.png"
-    this.game.load.image "marche", "assets/marche.png"
-    this.game.load.image "tennis", "assets/tennis.png"
-    this.game.load.image "velo", "assets/velo.png"
-    
-    this.game.load.image "b_soda", "assets/soda.png"
-    this.game.load.image "b_hamburger", "assets/hamburger.png"
-    this.game.load.image "b_frite", "assets/frite.png"
-    this.game.load.image "b_canape", "assets/canape.png"
-    
     this.game.load.image "background", "assets/bg.png"
+    
+    this.game.load.image "pomme", "assets/items/pomme.png"
+    this.game.load.image "aubergine", "assets/items/aubergine.png"
+    this.game.load.image "banane", "assets/items/banane.png"
+    this.game.load.image "orange", "assets/items/orange.png"
+    this.game.load.image "tomate", "assets/items/tomate.png"
+    this.game.load.image "marche", "assets/items/marche.png"
+    this.game.load.image "tennis", "assets/items/tennis.png"
+    this.game.load.image "velo", "assets/items/velo.png"
+    
+    this.game.load.image "b_soda", "assets/items/soda.png"
+    this.game.load.image "b_hamburger", "assets/items/hamburger.png"
+    this.game.load.image "b_frite", "assets/items/frite.png"
+    this.game.load.image "b_canape", "assets/items/canape.png"
 
     scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
 
