@@ -8,10 +8,10 @@
   return
 )()
 
-winW = document.body.offsetWidth;
-winH = document.body.offsetHeight;
+win_height = 654
+win_width = 368
 
-game = new Phaser.Game(winW, winH, Phaser.AUTO, 'game_div');
+game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div')
 
 main_state = {
 
@@ -19,6 +19,14 @@ main_state = {
     this.game.stage.backgroundColor = "#71c5cf"
     this.game.load.image "bird", "assets/bird.png"
     this.game.load.image "item", "assets/pipe.png"
+
+    scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
+
+    scaleManager.forcePortrait = true
+    scaleManager.scaleMode = Phaser.ScaleManager.SHOW_ALL
+
+    scaleManager.setShowAll()
+    scaleManager.refresh()
     return    
     
   create: () ->
@@ -31,7 +39,7 @@ main_state = {
     space_key.onDown.add this.jump, this
 
     this.game.input.onTap.add( () ->
-        this.jump()
+      this.jump()
     , this)
     
     # Create a group of 20 items
@@ -66,7 +74,7 @@ main_state = {
     position = Math.floor(Math.random()*5)+1
     item = this.items.getFirstDead()
     this.game.physics.enable(item)
-    item.reset(400, position*60+10)
+    item.reset(win_width, position*60+10)
     item.body.velocity.x = -200
     item.outOfBoundsKill = true
 
@@ -79,13 +87,5 @@ main_state = {
 
 };
 
-game.state.add('main', main_state);
-game.state.start('main');
-
-
-
-
-
-
-
-
+game.state.add('main', main_state)
+game.state.start('main')
