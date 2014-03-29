@@ -13,19 +13,21 @@ win_width = 368
 
 game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div')
 
-map={}
-map["pomme"] = {points: 5}
-map["aubergine"] = {points: 5}
-map["banane"] = {points: 5}
-map["orange"] = {points: 5}
-map["tomate"] = {points: 5}
-map["marche"] = {points: 5}
-map["tennis"] = {points: 30}
-map["velo"] = {points: 30}
-map["b-soda"] = {points: -10}
-map["b-hamburger"] = {points: -25}
-map["b-frite"] = {points: -20}
-map["b-canape"] = {points: -10}
+map={
+  pomme :{points: 5},
+  aubergine: {points: 5},
+  banane : {points: 5},
+  orange: {points: 5},
+  tomate: {points: 5},
+  marche: {points: 5},
+  tennis: {points: 30},
+  velo: {points: 30},
+  b_soda: {points: -10},
+  b_hamburger: {points: -25},
+  b_frite: {points: -20},
+  b_canape:{points: -10}
+}
+
 
 main_state = {
 
@@ -45,10 +47,10 @@ main_state = {
     this.game.load.image "tennis", "assets/tennis.png"
     this.game.load.image "velo", "assets/velo.png"
     
-    this.game.load.image "b-soda", "assets/soda.png"
-    this.game.load.image "b-hamburger", "assets/hamburger.png"
-    this.game.load.image "b-frite", "assets/frite.png"
-    this.game.load.image "b-canape", "assets/canape.png"
+    this.game.load.image "b_soda", "assets/soda.png"
+    this.game.load.image "b_hamburger", "assets/hamburger.png"
+    this.game.load.image "b_frite", "assets/frite.png"
+    this.game.load.image "b_canape", "assets/canape.png"
     
     this.game.load.image "background", "assets/bg.png"
 
@@ -88,10 +90,10 @@ main_state = {
     this.items.createMultiple 5, "marche"
     this.items.createMultiple 5, "tennis"
     this.items.createMultiple 5, "velo"
-    this.items.createMultiple 15, "b-soda"
-    this.items.createMultiple 15, "b-hamburger"
-    this.items.createMultiple 15, "b-frite"
-    this.items.createMultiple 15, "b-canape"
+    this.items.createMultiple 15, "b_soda"
+    this.items.createMultiple 15, "b_hamburger"
+    this.items.createMultiple 15, "b_frite"
+    this.items.createMultiple 15, "b_canape"
 
     this.timer = this.game.time.events.loop(1500, this.add_one_item, this)
 
