@@ -9,11 +9,11 @@
 )()
 
 win_height = 654
-win_width = 368
+win_width = 450
 
 game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div')
 
-map={
+map = {
   pomme :{points: 5},
   aubergine: {points: 5},
   banane : {points: 5},
@@ -29,14 +29,19 @@ map={
   b_canape:{points: -10}
 }
 
-
 main_state = {
 
   preload: () ->
     this.game.stage.backgroundColor = "#71c5cf"
 
-    this.game.load.image "bird", "assets/bird.png"
     this.game.load.image "background", "assets/bg.png"
+
+    this.game.load.image "bird1_idle", "assets/sprites/bird1_idle.png"
+    this.game.load.image "bird1_fly", "assets/sprites/bird1_fly.png"
+    this.game.load.image "bird2_idle", "assets/sprites/bird2_idle.png"
+    this.game.load.image "bird2_fly", "assets/sprites/bird2_fly.png"
+    this.game.load.image "bird3_idle", "assets/sprites/bird3_idle.png"
+    this.game.load.image "bird3_fly", "assets/sprites/bird3_fly.png"
     
     this.game.load.image "pomme", "assets/items/pomme.png"
     this.game.load.image "aubergine", "assets/items/aubergine.png"
@@ -65,12 +70,13 @@ main_state = {
   create: () ->
     this.background = game.add.tileSprite(0, 0, 2000, win_height, "background")
     
-    this.bird = this.game.add.sprite(100, 245, "bird")
-    this.bird.scale.x = this.bird.scale.y = 0.6
+    this.current_bird = "bird1"
+    this.bird = this.game.add.sprite(100, 245, this.current_bird + "_idle")
+    this.bird.scale.x = this.bird.scale.y = 0.5
 
     this.game.physics.enable(this.bird)
     this.bird.body.gravity.y = 1000
-    
+
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
 
@@ -98,6 +104,9 @@ main_state = {
     this.timer = this.game.time.events.loop(1500, this.add_one_item, this)
 
     this.score = 0
+    this.badItemsCount = 0
+    this.goodItemsCount = 0
+    this.bird_weight = 1
 
     this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
     return
@@ -119,6 +128,22 @@ main_state = {
     item.kill()
     this.score = this.score + map[item.key].points
     this.label_score.text = this.score
+    console.log 'b:'+item.key
+    if (item.key.search /b_/)
+      this.goodItemsCount += 1
+      this.bird_weight -= 1
+    else
+      this.badItemsCount += 1
+      this.bird_weight += 1
+
+    if (this.bird_weight == 0)
+      this.bird_weight = 1
+    if (this.bird_weight == 4)
+        this.restart_game()
+    
+    clearTimeout(this.fly)
+    this.current_bird = "bird" + this.bird_weight
+    this.bird.loadTexture(this.current_bird + "_idle")
 
   add_one_item : () ->
     position = Math.floor(Math.random()*5)+1
@@ -129,12 +154,16 @@ main_state = {
     item.outOfBoundsKill = true
 
   jump: () ->
+    this.bird.loadTexture(this.current_bird + "_fly")
     this.bird.body.velocity.y = -350
     this.game.add.tween(this.bird).to({angle: -20}, 100).start()
+    this.fly = window.setTimeout( (bird, current) ->
+      bird.loadTexture(current + "_idle")
+    , 100, this.bird, this.current_bird)
 
   restart_game: () ->
     this.game.state.start('main')
-};
+}
 
 game.state.add('main', main_state)
 game.state.start('main')
