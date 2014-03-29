@@ -19,9 +19,10 @@ map = {
   banane : {points: 5},
   orange: {points: 5},
   tomate: {points: 5},
-  marche: {points: 5},
+  carotte: {points: 5},
+  marche: {points: 15},
   tennis: {points: 30},
-  velo: {points: 30},
+  basket: {points: 30},
   b_soda: {points: -10},
   b_hamburger: {points: -25},
   b_frite: {points: -20},
@@ -32,6 +33,9 @@ main_state = {
 
   preload: () ->
     this.game.stage.backgroundColor = "#71c5cf"
+
+    this.game.load.image "background", "assets/bg.png"
+
     this.game.load.image "bird1_idle", "assets/sprites/bird1_idle.png"
     this.game.load.image "bird1_fly", "assets/sprites/bird1_fly.png"
     this.game.load.image "bird2_idle", "assets/sprites/bird2_idle.png"
@@ -39,24 +43,20 @@ main_state = {
     this.game.load.image "bird3_idle", "assets/sprites/bird3_idle.png"
     this.game.load.image "bird3_fly", "assets/sprites/bird3_fly.png"
     
-    this.game.load.image "item", "assets/pipe.png"
-    this.game.load.image "baditem", "assets/item-red.png"
+    this.game.load.image "pomme", "assets/items/pomme.png"
+    this.game.load.image "aubergine", "assets/items/aubergine.png"
+    this.game.load.image "banane", "assets/items/banane.png"
+    this.game.load.image "orange", "assets/items/orange.png"
+    this.game.load.image "tomate", "assets/items/tomate.png"
+    this.game.load.image "marche", "assets/items/marche.png"
+    this.game.load.image "tennis", "assets/items/tennis.png"
+    this.game.load.image "basket", "assets/items/basket.png"
+    this.game.load.image "carotte", "assets/items/carotte.png"
     
-    this.game.load.image "pomme", "assets/pomme.png"
-    this.game.load.image "aubergine", "assets/aubergine.png"
-    this.game.load.image "banane", "assets/banane.png"
-    this.game.load.image "orange", "assets/orange.png"
-    this.game.load.image "tomate", "assets/tomate.png"
-    this.game.load.image "marche", "assets/marche.png"
-    this.game.load.image "tennis", "assets/tennis.png"
-    this.game.load.image "velo", "assets/velo.png"
-    
-    this.game.load.image "b_soda", "assets/soda.png"
-    this.game.load.image "b_hamburger", "assets/hamburger.png"
-    this.game.load.image "b_frite", "assets/frite.png"
-    this.game.load.image "b_canape", "assets/canape.png"
-    
-    this.game.load.image "background", "assets/bg.png"
+    this.game.load.image "b_soda", "assets/items/soda.png"
+    this.game.load.image "b_hamburger", "assets/items/hamburger.png"
+    this.game.load.image "b_frite", "assets/items/frite.png"
+    this.game.load.image "b_canape", "assets/items/canape.png"
 
     this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
     this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
@@ -100,7 +100,8 @@ main_state = {
     this.items.createMultiple 5, "tomate"
     this.items.createMultiple 5, "marche"
     this.items.createMultiple 5, "tennis"
-    this.items.createMultiple 5, "velo"
+    this.items.createMultiple 5, "basket"
+    this.items.createMultiple 5, "carotte"
     this.items.createMultiple 15, "b_soda"
     this.items.createMultiple 15, "b_hamburger"
     this.items.createMultiple 15, "b_frite"
