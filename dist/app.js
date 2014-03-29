@@ -16,7 +16,9 @@
       this.bird.body.gravity.y = 1000;
       space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       space_key.onDown.add(this.jump, this);
-      this.game.input.onTap.add(this.jump(), this);
+      this.game.input.onTap.add(function() {
+        return this.jump();
+      }, this);
     },
     update: function() {
       if (this.bird.inWorld === false) {

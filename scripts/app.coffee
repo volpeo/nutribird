@@ -17,7 +17,9 @@ main_state = {
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
 
-    this.game.input.onTap.add( this.jump(), this)
+    this.game.input.onTap.add( () ->
+        this.jump()
+    , this)
     
     # Create a group of 20 pipes
     # this.pipes = game.add.group()
