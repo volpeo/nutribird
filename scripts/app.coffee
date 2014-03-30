@@ -62,8 +62,8 @@ main_state = {
     this.game.load.image "b_frite", "assets/items/frite.png"
     this.game.load.image "b_canape", "assets/items/canape.png"
 
-    this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
-    this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
+    this.game.load.audio('jump', ['assets/sounds/jump.mp3'])
+    this.game.load.audio('miam', ['assets/sounds/miam.mp3'])
 
     scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
 
