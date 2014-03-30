@@ -20,4 +20,4 @@ game.state.add('menu', menu_state)
 game.state.add('gameover', gameover_state)
 game.state.add('play', main_state)
 
-game.state.start('load');
+game.state.start 'load'
