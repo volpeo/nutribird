@@ -164,7 +164,6 @@
       if (this.bird_weight === 4) {
         this.gameover();
       }
-      clearTimeout(this.fly);
       this.current_bird = "bird" + this.bird_weight;
       this.bird.loadTexture(this.current_bird + "_idle");
       if (this.bird_weight === 1) {
