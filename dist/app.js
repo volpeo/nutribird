@@ -218,6 +218,9 @@
     gameover: function() {
       this.oldScore = window.localStorage.getItem("nutribird-score");
       window.localStorage.setItem("nutribird-current-score", this.score);
+      if (this.oldScore === null) {
+        window.localStorage.setItem("nutribird-score", 0);
+      }
       if (this.oldScore !== null && this.oldScore < this.score) {
         window.localStorage.setItem("nutribird-score", this.score);
       }
