@@ -17,6 +17,7 @@ score = 0
 
 game.state.add('load', load_state)
 game.state.add('menu', menu_state)
+game.state.add('gameover', gameover_state)
 game.state.add('play', main_state)
 
 game.state.start('load');

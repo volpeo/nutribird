@@ -72,7 +72,7 @@ main_state = {
 
   update: () ->
     if (this.bird.inWorld == false)
-      this.restart_game()
+      this.gameover()
 
     if (this.bird.angle < 20)
       this.bird.angle += 1
@@ -106,7 +106,7 @@ main_state = {
     if (this.bird_weight == 0)
       this.bird_weight = 1
     if (this.bird_weight == 4)
-        this.restart_game()
+        this.gameover()
     
     clearTimeout(this.fly)
     this.current_bird = "bird" + this.bird_weight
@@ -145,6 +145,6 @@ main_state = {
     , this);
 
 
-  restart_game: () ->
-    this.game.state.start('menu')
+  gameover: () ->
+    this.game.state.start('gameover')
 }

@@ -1,5 +1,5 @@
 (function() {
-  var game, load_state, main_state, map, menu_state, score, startsWith, win_height, win_width;
+  var game, gameover_state, load_state, main_state, map, menu_state, score, startsWith, win_height, win_width;
 
   load_state = {
     preload: function() {
@@ -129,7 +129,7 @@
     },
     update: function() {
       if (this.bird.inWorld === false) {
-        this.restart_game();
+        this.gameover();
       }
       if (this.bird.angle < 20) {
         this.bird.angle += 1;
@@ -162,7 +162,7 @@
         this.bird_weight = 1;
       }
       if (this.bird_weight === 4) {
-        this.restart_game();
+        this.gameover();
       }
       clearTimeout(this.fly);
       this.current_bird = "bird" + this.bird_weight;
@@ -203,8 +203,8 @@
         return this.bird.loadTexture(this.current_bird + "_idle");
       }, this);
     },
-    restart_game: function() {
-      return this.game.state.start('menu');
+    gameover: function() {
+      return this.game.state.start('gameover');
     }
   };
 
@@ -219,6 +219,28 @@
       x = game.world.width / 2;
       y = game.world.height / 2;
       text = this.game.add.text(x, y - 50, "Press space to start", style);
+      text.anchor.setTo(0.5, 0.5);
+      if (score > 0) {
+        score_label = this.game.add.text(x, y + 50, "score: " + score, style);
+        return score_label.anchor.setTo(0.5, 0.5);
+      }
+    },
+    start: function() {
+      return this.game.state.start('play');
+    }
+  };
+
+  gameover_state = {
+    create: function() {
+      var button, score_label, style, text, x, y;
+      button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
+      style = {
+        font: "30px Arial",
+        fill: "#ffffff"
+      };
+      x = game.world.width / 2;
+      y = game.world.height / 2;
+      text = this.game.add.text(x, y - 50, "GameOver!", style);
       text.anchor.setTo(0.5, 0.5);
       if (score > 0) {
         score_label = this.game.add.text(x, y + 50, "score: " + score, style);
@@ -255,6 +277,8 @@
   game.state.add('load', load_state);
 
   game.state.add('menu', menu_state);
+
+  game.state.add('gameover', gameover_state);
 
   game.state.add('play', main_state);
 
