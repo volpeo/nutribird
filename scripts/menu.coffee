@@ -1,25 +1,16 @@
 menu_state =
   create: () ->
-    #space_key = this.game.input.keyboard.addKey Phaser.Keyboard.SPACEBAR
-    #space_key.onDown.add(this.start, this)
 
-    button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
+    this.background = game.add.tileSprite(0, 0, win_width, win_height, "home")
 
-    style = { font: "30px Arial", fill: "#ffffff" }
+    button = game.add.button(game.world.centerX - 78.5, 500, 'play_btn', this.start, this, 2, 1, 0);
+
+    style = { font: "bold 30px Verdana", fill: "#f9b410", align: "center", stroke: "#4d3305", strokeThickness: 5 }
     x = game.world.width/2
     y = game.world.height/2
 
-    text = this.game.add.text(x, y-50, "Press space to start", style)
+    text = this.game.add.text(x, y + 70, "Fais manger et bouger\nPicAssiette !", style)
     text.anchor.setTo 0.5, 0.5
-
-    if (score > 0)
-      score_label = this.game.add.text x, y+50, "score: " + score, style
-      score_label.anchor.setTo 0.5, 0.5
-    
-    oldScore = window.localStorage.getItem("nutribird-score")
-    if(oldScore!=null)
-      console.log 'best score ' + oldScore
-
 
   start: () ->
     this.game.state.start('play');

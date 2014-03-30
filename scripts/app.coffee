@@ -31,6 +31,8 @@ main_state = {
 
     this.jump_sound = this.game.add.audio('jump')
     this.miam_sound = this.game.add.audio('miam')
+    this.dead_sound = this.game.add.audio('dead')
+    this.boom_sound = this.game.add.audio('boom')
 
     space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     space_key.onDown.add this.jump, this
@@ -72,6 +74,7 @@ main_state = {
 
   update: () ->
     if (this.bird.inWorld == false)
+      this.dead_sound.play()
       this.gameover()
 
     if (this.bird.angle < 20)
@@ -106,7 +109,8 @@ main_state = {
     if (this.bird_weight == 0)
       this.bird_weight = 1
     if (this.bird_weight == 4)
-        this.gameover()
+      this.boom_sound.play()
+      this.gameover()
 
     this.current_bird = "bird" + this.bird_weight
     this.bird.loadTexture(this.current_bird + "_idle")

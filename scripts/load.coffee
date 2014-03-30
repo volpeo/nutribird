@@ -3,6 +3,7 @@ load_state =
     this.game.stage.backgroundColor = "#71c5cf"
 
     this.game.load.image "background", "assets/bg.png"
+    this.game.load.image "home", "assets/home.png"
 
     this.game.load.image "bird1_idle", "assets/sprites/bird1_idle.png"
     this.game.load.image "bird1_fly", "assets/sprites/bird1_fly.png"
@@ -27,8 +28,12 @@ load_state =
     this.game.load.image "b_frite", "assets/items/frite.png"
     this.game.load.image "b_canape", "assets/items/canape.png"
 
+    this.game.load.image "play_btn", "assets/play.png"
+
     this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
     this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
+    this.game.load.audio('dead', ['assets/sounds/kick.mp3']);
+    this.game.load.audio('boom', ['assets/sounds/boom.mp3']);
 
     scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height)
 

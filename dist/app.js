@@ -6,6 +6,7 @@
       var scaleManager;
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("background", "assets/bg.png");
+      this.game.load.image("home", "assets/home.png");
       this.game.load.image("bird1_idle", "assets/sprites/bird1_idle.png");
       this.game.load.image("bird1_fly", "assets/sprites/bird1_fly.png");
       this.game.load.image("bird2_idle", "assets/sprites/bird2_idle.png");
@@ -25,8 +26,11 @@
       this.game.load.image("b_hamburger", "assets/items/hamburger.png");
       this.game.load.image("b_frite", "assets/items/frite.png");
       this.game.load.image("b_canape", "assets/items/canape.png");
+      this.game.load.image("play_btn", "assets/play.png");
       this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
       this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
+      this.game.load.audio('dead', ['assets/sounds/kick.mp3']);
+      this.game.load.audio('boom', ['assets/sounds/boom.mp3']);
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
       scaleManager.forcePortrait = true;
       scaleManager.scaleMode = Phaser.ScaleManager.SHOW_ALL;
@@ -95,6 +99,8 @@
       this.bird.body.gravity.y = 1000;
       this.jump_sound = this.game.add.audio('jump');
       this.miam_sound = this.game.add.audio('miam');
+      this.dead_sound = this.game.add.audio('dead');
+      this.boom_sound = this.game.add.audio('boom');
       space_key = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
       space_key.onDown.add(this.jump, this);
       this.game.input.onDown.add(function() {
@@ -129,6 +135,7 @@
     },
     update: function() {
       if (this.bird.inWorld === false) {
+        this.dead_sound.play();
         this.gameover();
       }
       if (this.bird.angle < 20) {
@@ -162,6 +169,7 @@
         this.bird_weight = 1;
       }
       if (this.bird_weight === 4) {
+        this.boom_sound.play();
         this.gameover();
       }
       this.current_bird = "bird" + this.bird_weight;
@@ -217,24 +225,20 @@
 
   menu_state = {
     create: function() {
-      var button, oldScore, score_label, style, text, x, y;
-      button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
+      var button, style, text, x, y;
+      this.background = game.add.tileSprite(0, 0, win_width, win_height, "home");
+      button = game.add.button(game.world.centerX - 78.5, 500, 'play_btn', this.start, this, 2, 1, 0);
       style = {
-        font: "30px Arial",
-        fill: "#ffffff"
+        font: "bold 30px Verdana",
+        fill: "#f9b410",
+        align: "center",
+        stroke: "#4d3305",
+        strokeThickness: 5
       };
       x = game.world.width / 2;
       y = game.world.height / 2;
-      text = this.game.add.text(x, y - 50, "Press space to start", style);
-      text.anchor.setTo(0.5, 0.5);
-      if (score > 0) {
-        score_label = this.game.add.text(x, y + 50, "score: " + score, style);
-        score_label.anchor.setTo(0.5, 0.5);
-      }
-      oldScore = window.localStorage.getItem("nutribird-score");
-      if (oldScore !== null) {
-        return console.log('best score ' + oldScore);
-      }
+      text = this.game.add.text(x, y + 70, "Fais manger et bouger\nPicAssiette !", style);
+      return text.anchor.setTo(0.5, 0.5);
     },
     start: function() {
       return this.game.state.start('play');
