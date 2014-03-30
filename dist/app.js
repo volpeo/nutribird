@@ -204,13 +204,21 @@
       }, this);
     },
     gameover: function() {
-      return this.game.state.start('gameover');
+      var oldScore;
+      this.game.state.start('gameover');
+      oldScore = window.localStorage.getItem("nutribird-score");
+      if (oldScore !== null) {
+        console.log('best score');
+      }
+      console.log('old score ' + oldScore);
+      console.log('new score ' + this.score);
+      return window.localStorage.setItem("nutribird-score", this.score);
     }
   };
 
   menu_state = {
     create: function() {
-      var button, score_label, style, text, x, y;
+      var button, oldScore, score_label, style, text, x, y;
       button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
       style = {
         font: "30px Arial",
@@ -222,7 +230,11 @@
       text.anchor.setTo(0.5, 0.5);
       if (score > 0) {
         score_label = this.game.add.text(x, y + 50, "score: " + score, style);
-        return score_label.anchor.setTo(0.5, 0.5);
+        score_label.anchor.setTo(0.5, 0.5);
+      }
+      oldScore = window.localStorage.getItem("nutribird-score");
+      if (oldScore !== null) {
+        return console.log('best score ' + oldScore);
       }
     },
     start: function() {

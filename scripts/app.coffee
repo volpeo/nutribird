@@ -147,4 +147,10 @@ main_state = {
 
   gameover: () ->
     this.game.state.start('gameover')
+    oldScore = window.localStorage.getItem("nutribird-score")
+    if(oldScore!=null)
+	    console.log 'best score'
+    console.log 'old score ' +  oldScore
+    console.log 'new score ' +  this.score
+    window.localStorage.setItem("nutribird-score", this.score)
 }

@@ -15,6 +15,11 @@ menu_state =
     if (score > 0)
       score_label = this.game.add.text x, y+50, "score: " + score, style
       score_label.anchor.setTo 0.5, 0.5
+    
+    oldScore = window.localStorage.getItem("nutribird-score")
+    if(oldScore!=null)
+      console.log 'best score ' + oldScore
+
 
   start: () ->
     this.game.state.start('play');
