@@ -1,5 +1,5 @@
 (function() {
-  var game, main_state, map, win_height, win_width;
+  var game, main_state, map, startsWith, win_height, win_width;
 
   (function() {
     var s;
@@ -40,13 +40,13 @@
     carotte: {
       points: 5
     },
-    marche: {
+    s_marche: {
       points: 15
     },
-    tennis: {
+    s_tennis: {
       points: 30
     },
-    basket: {
+    s_basket: {
       points: 30
     },
     b_soda: {
@@ -61,6 +61,10 @@
     b_canape: {
       points: -10
     }
+  };
+
+  startsWith = function(str, prefix) {
+    return str.lastIndexOf(prefix, 0) === 0;
   };
 
   main_state = {
@@ -79,10 +83,10 @@
       this.game.load.image("banane", "assets/items/banane.png");
       this.game.load.image("orange", "assets/items/orange.png");
       this.game.load.image("tomate", "assets/items/tomate.png");
-      this.game.load.image("marche", "assets/items/marche.png");
-      this.game.load.image("tennis", "assets/items/tennis.png");
-      this.game.load.image("basket", "assets/items/basket.png");
       this.game.load.image("carotte", "assets/items/carotte.png");
+      this.game.load.image("s_marche", "assets/items/marche.png");
+      this.game.load.image("s_tennis", "assets/items/tennis.png");
+      this.game.load.image("s_basket", "assets/items/basket.png");
       this.game.load.image("b_soda", "assets/items/soda.png");
       this.game.load.image("b_hamburger", "assets/items/hamburger.png");
       this.game.load.image("b_frite", "assets/items/frite.png");
@@ -116,10 +120,10 @@
       this.items.createMultiple(5, "banane");
       this.items.createMultiple(5, "orange");
       this.items.createMultiple(5, "tomate");
-      this.items.createMultiple(5, "marche");
-      this.items.createMultiple(5, "tennis");
-      this.items.createMultiple(5, "basket");
       this.items.createMultiple(5, "carotte");
+      this.items.createMultiple(5, "s_marche");
+      this.items.createMultiple(5, "s_tennis");
+      this.items.createMultiple(5, "s_basket");
       this.items.createMultiple(15, "b_soda");
       this.items.createMultiple(15, "b_hamburger");
       this.items.createMultiple(15, "b_frite");
@@ -128,6 +132,9 @@
       this.score = 0;
       this.badItemsCount = 0;
       this.goodItemsCount = 0;
+      this.goodFruitItemsCount = 0;
+      this.goodSportItemsCount = 0;
+      this.goodSportItemsCountScore = 0;
       this.bird_weight = 1;
       this.label_score = this.game.add.text(20, 20, "0", {
         font: "30px Arial",
@@ -149,13 +156,18 @@
       item.kill();
       this.score = this.score + map[item.key].points;
       this.label_score.text = this.score;
-      console.log('b:' + item.key);
-      if (item.key.search(/b_/)) {
-        this.goodItemsCount += 1;
-        this.bird_weight -= 1;
-      } else {
+      if (startsWith(item.key, 'b_')) {
         this.badItemsCount += 1;
         this.bird_weight += 1;
+      } else {
+        if (startsWith(item.key, 's_')) {
+          this.goodSportItemsCount += 1;
+          this.goodSportItemsCountScore = this.goodSportItemsCountScore + map[item.key].points;
+        } else {
+          this.goodFruitItemsCount += 1;
+        }
+        this.goodItemsCount += 1;
+        this.bird_weight -= 1;
       }
       if (this.bird_weight === 0) {
         this.bird_weight = 1;
