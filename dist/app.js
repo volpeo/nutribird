@@ -165,7 +165,19 @@
       }
       clearTimeout(this.fly);
       this.current_bird = "bird" + this.bird_weight;
-      return this.bird.loadTexture(this.current_bird + "_idle");
+      this.bird.loadTexture(this.current_bird + "_idle");
+      if (this.bird_weight === 1) {
+        this.bird.body.gravity.y = 1000;
+        this.bird.body.velocity.y = -350;
+      }
+      if (this.bird_weight === 2) {
+        this.bird.body.gravity.y = 1500;
+        this.bird.body.velocity.y = -200;
+      }
+      if (this.bird_weight === 3) {
+        this.bird.body.gravity.y = 2000;
+        return this.bird.body.velocity.y = -100;
+      }
     },
     add_one_item: function() {
       var item, position;

@@ -152,6 +152,18 @@ main_state = {
     this.current_bird = "bird" + this.bird_weight
     this.bird.loadTexture(this.current_bird + "_idle")
 
+    if this.bird_weight == 1
+      this.bird.body.gravity.y = 1000
+      this.bird.body.velocity.y = -350
+
+    if this.bird_weight == 2
+      this.bird.body.gravity.y = 1500
+      this.bird.body.velocity.y = -200
+
+    if this.bird_weight == 3
+      this.bird.body.gravity.y = 2000
+      this.bird.body.velocity.y = -100
+
   add_one_item : () ->
     position = Math.floor(Math.random()*5)+1
     item = this.items.getRandom(0, this.items.length)
