@@ -68,7 +68,8 @@ main_state = {
     this.goodSportItemsCountScore = 0
     this.bird_weight = 1
 
-    this.label_score = this.game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff" })
+    style = { font: "bold 30px Verdana", fill: "#F9B410", stroke: "#4D3305", strokeThickness: 5 }
+    this.label_score = this.game.add.text(20, 20, "0", style)
     return
 
 
@@ -149,12 +150,15 @@ main_state = {
 
 
   gameover: () ->
+
+    this.oldScore = window.localStorage.getItem("nutribird-score")
+
+    window.localStorage.setItem("nutribird-current-score", this.score)
+
+    if(this.oldScore != null && this.oldScore < this.score)
+      window.localStorage.setItem("nutribird-score", this.score)
+
     this.game.state.start('gameover')
-    oldScore = window.localStorage.getItem("nutribird-score")
-    if(oldScore!=null && oldScore < this.score)
-	    console.log 'best score'
-	    window.localStorage.setItem("nutribird-score", this.score)
-    console.log 'old score ' +  oldScore
-    console.log 'new score ' +  this.score
+    
     
 }

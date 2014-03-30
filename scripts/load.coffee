@@ -5,6 +5,8 @@ load_state =
     this.game.load.image "background", "assets/bg.png"
     this.game.load.image "home", "assets/home.png"
 
+    this.game.load.image "game-over", "assets/game-over.png"
+
     this.game.load.image "bird1_idle", "assets/sprites/bird1_idle.png"
     this.game.load.image "bird1_fly", "assets/sprites/bird1_fly.png"
     this.game.load.image "bird2_idle", "assets/sprites/bird2_idle.png"
@@ -29,6 +31,7 @@ load_state =
     this.game.load.image "b_canape", "assets/items/canape.png"
 
     this.game.load.image "play_btn", "assets/play.png"
+    this.game.load.image "retry", "assets/retry.png"
 
     this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
     this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
