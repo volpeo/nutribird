@@ -270,7 +270,7 @@
 
   win_width = 450;
 
-  game = new Phaser.Game(400, 490, Phaser.AUTO, 'game_div');
+  game = new Phaser.Game(win_width, win_height, Phaser.AUTO, 'game_div');
 
   score = 0;
 
