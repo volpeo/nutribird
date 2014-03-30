@@ -18,7 +18,7 @@ startsWith = (str, prefix) ->
   str.lastIndexOf(prefix, 0) is 0
   
 main_state = {
-    
+
   create: () ->
     this.background = game.add.tileSprite(0, 0, 2000, win_height, "background")
     
