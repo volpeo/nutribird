@@ -6,6 +6,7 @@
       var scaleManager;
       this.game.stage.backgroundColor = "#71c5cf";
       this.game.load.image("background", "assets/bg.png");
+      this.game.load.image("game-over", "assets/game-over.png");
       this.game.load.image("bird1_idle", "assets/sprites/bird1_idle.png");
       this.game.load.image("bird1_fly", "assets/sprites/bird1_fly.png");
       this.game.load.image("bird2_idle", "assets/sprites/bird2_idle.png");
@@ -25,6 +26,7 @@
       this.game.load.image("b_hamburger", "assets/items/hamburger.png");
       this.game.load.image("b_frite", "assets/items/frite.png");
       this.game.load.image("b_canape", "assets/items/canape.png");
+      this.game.load.image("retry", "assets/retry.png");
       this.game.load.audio('jump', ['assets/sounds/jump.mp3']);
       this.game.load.audio('miam', ['assets/sounds/miam.mp3']);
       scaleManager = new Phaser.ScaleManager(this.game, win_width, win_height);
@@ -86,7 +88,7 @@
 
   main_state = {
     create: function() {
-      var space_key;
+      var space_key, style;
       this.background = game.add.tileSprite(0, 0, 2000, win_height, "background");
       this.current_bird = "bird1";
       this.bird = this.game.add.sprite(100, 245, this.current_bird + "_idle");
@@ -122,10 +124,13 @@
       this.goodSportItemsCount = 0;
       this.goodSportItemsCountScore = 0;
       this.bird_weight = 1;
-      this.label_score = this.game.add.text(20, 20, "0", {
-        font: "30px Arial",
-        fill: "#ffffff"
-      });
+      style = {
+        font: "bold 30px Verdana",
+        fill: "#F9B410",
+        stroke: "#4D3305",
+        strokeThickness: 5
+      };
+      this.label_score = this.game.add.text(20, 20, "0", style);
     },
     update: function() {
       if (this.bird.inWorld === false) {
@@ -203,21 +208,18 @@
       }, this);
     },
     gameover: function() {
-      var oldScore;
-      this.game.state.start('gameover');
-      oldScore = window.localStorage.getItem("nutribird-score");
-      if (oldScore !== null && oldScore < this.score) {
-        console.log('best score');
+      this.oldScore = window.localStorage.getItem("nutribird-score");
+      window.localStorage.setItem("nutribird-current-score", this.score);
+      if (this.oldScore !== null && this.oldScore < this.score) {
         window.localStorage.setItem("nutribird-score", this.score);
       }
-      console.log('old score ' + oldScore);
-      return console.log('new score ' + this.score);
+      return this.game.state.start('gameover');
     }
   };
 
   menu_state = {
     create: function() {
-      var button, oldScore, score_label, style, text, x, y;
+      var button, score_label, style, text, x, y;
       button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
       style = {
         font: "30px Arial",
@@ -229,11 +231,7 @@
       text.anchor.setTo(0.5, 0.5);
       if (score > 0) {
         score_label = this.game.add.text(x, y + 50, "score: " + score, style);
-        score_label.anchor.setTo(0.5, 0.5);
-      }
-      oldScore = window.localStorage.getItem("nutribird-score");
-      if (oldScore !== null) {
-        return console.log('best score ' + oldScore);
+        return score_label.anchor.setTo(0.5, 0.5);
       }
     },
     start: function() {
@@ -243,20 +241,27 @@
 
   gameover_state = {
     create: function() {
-      var button, score_label, style, text, x, y;
-      button = game.add.button(game.world.centerX - 95, 400, 'tomate', this.start, this, 2, 1, 0);
+      var best, best_score, best_score_label, button, current, current_score, current_score_label, style, x, y;
+      this.background = game.add.tileSprite(0, 0, 2000, win_height, "game-over");
+      button = game.add.button(game.world.centerX - 75, 550, 'retry', this.start, this, 2, 1, 0);
       style = {
-        font: "30px Arial",
-        fill: "#ffffff"
+        font: "bold 30px Verdana",
+        fill: "#F9B410",
+        stroke: "#4D3305",
+        strokeThickness: 5
       };
       x = game.world.width / 2;
       y = game.world.height / 2;
-      text = this.game.add.text(x, y - 50, "GameOver!", style);
-      text.anchor.setTo(0.5, 0.5);
-      if (score > 0) {
-        score_label = this.game.add.text(x, y + 50, "score: " + score, style);
-        return score_label.anchor.setTo(0.5, 0.5);
-      }
+      best = window.localStorage.getItem("nutribird-score");
+      current = window.localStorage.getItem("nutribird-current-score");
+      best_score_label = this.game.add.text(x, y + 20, "MEILLEUR SCORE", style);
+      best_score_label.anchor.setTo(0.5, 0.5);
+      best_score = this.game.add.text(x, y + 60, best, style);
+      best_score.anchor.setTo(0.5, 0.5);
+      current_score_label = this.game.add.text(x, y + 130, "TON SCORE", style);
+      current_score_label.anchor.setTo(0.5, 0.5);
+      current_score = this.game.add.text(x, y + 170, current, style);
+      return current_score.anchor.setTo(0.5, 0.5);
     },
     start: function() {
       return this.game.state.start('play');
