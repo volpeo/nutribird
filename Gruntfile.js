@@ -6,7 +6,10 @@ module.exports = function (grunt) {
     coffee: {
       dev: {
         files: {
-          'dist/app.js': 'scripts/app.coffee',
+          'dist/app.js': ['scripts/load.coffee', 'scripts/app.coffee', 'scripts/menu.coffee', 'scripts/game.coffee'],
+        },
+        options: {
+          join: true
         }
       }
     },
